@@ -1,417 +1,211 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:lovebird/blocs/authentication/authentication_bloc.dart';
-import 'package:lovebird/config/routes/routing.dart';
+import 'package:like_button/like_button.dart';
+import 'package:lovebird/blocs/scan/bloc/scan_bloc.dart';
 import 'package:lovebird/config/styles/color.dart';
-import 'package:lovebird/constant/api_constant.dart';
-import 'package:lovebird/models/bio_model.dart';
-import 'package:lovebird/pages/bio/custom_circle_avatar.dart';
-import 'package:lovebird/services/auth/models/authentication_detail.dart';
-import 'package:lovebird/widgets/bio_screen/text_devider.dart';
-import 'custom_circle_avatar.dart';
+import 'package:lovebird/ultis/helper.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
-class BioScreen extends StatefulWidget {
-  const BioScreen({Key? key}) : super(key: key);
+class ScanScreen extends StatefulWidget {
+  const ScanScreen({Key? key}) : super(key: key);
 
   @override
-  _BioScreenState createState() => _BioScreenState();
+  _ScanScreenState createState() => _ScanScreenState();
 }
 
-class _BioScreenState extends State<BioScreen> {
+class _ScanScreenState extends State<ScanScreen> {
+  @override
+  void initState() {
+    context.read<ScanBloc>().add(ScanStartEvent());
+    super.initState();
+  }
+
+  final colorizeColors = [
+    Colors.purple,
+    Colors.blue,
+    AppColors.tiffany,
+    Colors.yellow,
+    Colors.red,
+  ];
+
   @override
   Widget build(BuildContext context) {
-    var authBloc = BlocProvider.of<AuthenticationBloc>(context);
-    var user = (authBloc.state as AuthenticationSuccess).authenticationDetail;
     Size mediaQuery = MediaQuery.of(context).size;
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-      child: Scaffold(
-        backgroundColor: Colors.blueGrey[50],
-        body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection(ApiPath.bioCollectionRef)
-                .doc(user.uid)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const CircularProgressIndicator(
-                    color: Colors.blueAccent);
-              }
-              var data = snapshot.data!.data();
-              var bio = Bio.fromJson(data!);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.tiffany,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            const Text(
+              "Tìm kiếm tình yêu",
+              textAlign: TextAlign.center,
+            ),
+            IconButton(
+              onPressed: () => {context.read<ScanBloc>().add(ScanStartEvent())},
+              icon: const Icon(Icons.replay_rounded),
+              color: Colors.white,
+              iconSize: mediaQuery.width * 0.1,
+            ),
+          ],
+        ),
+      ),
+      body: BlocConsumer<ScanBloc, ScanState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          Size mediaQuery = MediaQuery.of(context).size;
 
-              return SizedBox(
-                width: mediaQuery.width,
-                height: mediaQuery.height,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: mediaQuery.height * 0.2,
-                        width: mediaQuery.width * 2,
-                        decoration: const BoxDecoration(
-                          color: AppColors.tiffany,
-                          // borderRadius: BorderRadius.only(
-                          //   bottomLeft: Radius.circular(80),
-                          //   bottomRight: Radius.circular(80),
-                          // ),
-                        ),
-                      ),
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          top: 40,
-                          child: CustomCircleAvatar(
-                            avatarURL: bio.avatar!,
-                          )),
-                      SizedBox(
-                        height: mediaQuery.height * 0.68,
-                        child: Center(
-                          child: Text(
-                            bio.name! + '24',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black,
-                                fontSize: mediaQuery.width * 0.08),
+          if (state is ScanFail) {
+            return Center(
+              child: Text(state.mess),
+            );
+          }
+
+          if (state is ScanResult) {
+            if (state.scanResult.length == 0) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/img/lovebird.png"),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: AnimatedTextKit(
+                      pause: const Duration(milliseconds: 200),
+                      repeatForever: true,
+                      isRepeatingAnimation: true,
+                      animatedTexts: [
+                        ColorizeAnimatedText(
+                          "You're so lonely :>",
+                          textStyle: const TextStyle(
+                            fontSize: 35.0,
                           ),
+                          colors: colorizeColors,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(320, 180, 4, 80),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: AppColors.tiffany, // background
-                            onPrimary: Colors.white, // foreground
-                          ),
-                          onPressed: () async {
-                            var aaaa = await Navigator.of(context).pushNamed(
-                                AppRouting.bioeditRoute,
-                                arguments: bio);
-                            print(aaaa);
-                          },
-                          child: const Icon(Icons.edit, size: 30),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(20, 300, 20, 40),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: mediaQuery.width * 0.02,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.location_pin, size: 30),
-                                SizedBox(
-                                  width: mediaQuery.width * 0.02,
-                                ),
-                                Text(
-                                  'Đang ở TP.Hồ Chí Minh',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: mediaQuery.width * 0.06),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.02,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.date_range, size: 30),
-                                SizedBox(
-                                  width: mediaQuery.width * 0.02,
-                                ),
-                                Text(
-                                  '24/12/1999',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: mediaQuery.width * 0.06),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.02,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.wc, size: 30),
-                                SizedBox(
-                                  width: mediaQuery.width * 0.02,
-                                ),
-                                Text(
-                                  'Giới tính: Nam',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: mediaQuery.width * 0.06),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.02,
-                            ),
-                            Center(
-                              child: TextDivider(
-                                textDivider: "Your Bio",
-                                color: AppColors.tiffany,
-                                sizeTextDivider: mediaQuery.width * 0.04,
-                              ),
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.02,
-                            ),
-                            Container(
-                              width: mediaQuery.width * 0.8,
-                              height: mediaQuery.width * 0.14,
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () =>
+                        {context.read<ScanBloc>().add(ScanStartEvent())},
+                    icon: const Icon(Icons.replay_rounded),
+                    color: Colors.blueGrey,
+                    iconSize: mediaQuery.width * 0.1,
+                  ),
+                ],
+              );
+            }
+            return ListView(
+              children: state.scanResult
+                  .map((e) => Padding(
+                            padding: EdgeInsets.all(mediaQuery.width * 0.05),
+                            child: Container(
+                              height: mediaQuery.width * 0.3,
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: const [
-                                  BoxShadow(
+                                borderRadius: BorderRadius.circular(20),
+                                // ignore: prefer_const_literals_to_create_immutables
+                                boxShadow: [
+                                  const BoxShadow(
                                     color: Colors.black26,
-                                    blurRadius: 8,
+                                    blurRadius: 20,
                                     // spreadRadius: -21,
-                                    offset: Offset(0, 3),
+                                    offset: Offset(0, 4),
                                   )
                                 ],
                               ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pushNamed(context, );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
                                       SizedBox(
-                                        width: mediaQuery.width * 0.14,
-                                        height: mediaQuery.width * 0.2,
-                                        child: Image.asset(
-                                            "assets/img/facebook.png"),
+                                        width: mediaQuery.width * 0.04,
                                       ),
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.05,
-                                      ),
-                                      Text(
-                                        'FaceBook',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                            fontSize: mediaQuery.width * 0.05),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.05,
-                            ),
-                            Container(
-                              width: mediaQuery.width * 0.8,
-                              height: mediaQuery.width * 0.14,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                    // spreadRadius: -21,
-                                    offset: Offset(0, 3),
-                                  )
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pushNamed(context, );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.14,
-                                        height: mediaQuery.width * 0.2,
-                                        child: Image.asset(
-                                            "assets/img/instagram.png"),
-                                      ),
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.05,
-                                      ),
-                                      Text(
-                                        'Instagram',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                            fontSize: mediaQuery.width * 0.05),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.03,
-                            ),
-                            Container(
-                              width: mediaQuery.width * 0.8,
-                              height: mediaQuery.width * 0.14,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                    // spreadRadius: -21,
-                                    offset: Offset(0, 3),
-                                  )
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pushNamed(context, );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.14,
-                                        height: mediaQuery.width * 0.2,
-                                        child: Image.asset(
-                                            "assets/img/twitter.png"),
-                                      ),
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.05,
-                                      ),
-                                      Text(
-                                        'Twitter',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                            fontSize: mediaQuery.width * 0.05),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.03,
-                            ),
-                            Container(
-                              width: mediaQuery.width * 0.8,
-                              height: mediaQuery.width * 0.14,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                    // spreadRadius: -21,
-                                    offset: Offset(0, 3),
-                                  )
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pushNamed(context, );
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.14,
-                                        height: mediaQuery.width * 0.2,
-                                        child:
-                                            Image.asset("assets/img/world.png"),
-                                      ),
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.05,
-                                      ),
-                                      Text(
-                                        'URL khác',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                            fontSize: mediaQuery.width * 0.05),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: mediaQuery.width * 0.08,
-                            ),
-                            Container(
-                              width: mediaQuery.width * 0.5,
-                              height: mediaQuery.width * 0.14,
-                              decoration: BoxDecoration(
-                                color: Colors.pink,
-                                borderRadius: BorderRadius.circular(40),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                    offset: Offset(0, 3),
-                                  )
-                                ],
-                              ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    BlocProvider.of<AuthenticationBloc>(context)
-                                        .add(AuthenticationLogout());
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: mediaQuery.width * 0.14,
-                                        height: mediaQuery.width * 0.2,
-                                        child: const Icon(
-                                          Icons.power_settings_new,
-                                          size: 30,
-                                          color: Colors.white,
+                                      Container(
+                                        width: mediaQuery.width * 0.15,
+                                        height: mediaQuery.width * 0.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(60),
+                                          color: AppColors.primaryColor,
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                e.avatar!.toString()
+                                                // 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-1/p320x320/249233916_3070314433217063_7410007586773100947_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=7206a8&_nc_ohc=m0OrDFFbgtIAX-7C2jy&_nc_ht=scontent.fsgn2-4.fna&oh=cc2bb385bc4899d196e53a56814593e6&oe=61B37D7A',
+                                                ),
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        'Log Out',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                            fontSize: mediaQuery.width * 0.06),
+                                      SizedBox(
+                                        width: mediaQuery.width * 0.05,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            Helper.customName(
+                                                e.name!.toString()),
+                                            style: TextStyle(
+                                              fontSize: mediaQuery.width * 0.05,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Text(
+                                            e.address ?? "",
+                                            style: TextStyle(
+                                                fontSize:
+                                                    mediaQuery.width * 0.045,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black54),
+                                          ),
+                                          Text(
+                                            e.geoFirePoint!.latitude.toString(),
+                                            style: TextStyle(
+                                                fontSize:
+                                                    mediaQuery.width * 0.045,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black54),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      right: mediaQuery.width * 0.04,
+                                    ),
+                                    child: LikeButton(
+                                      size: mediaQuery.width * 0.1,
+                                      isLiked: false,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+                          )
+                      // Text(e.geoFirePoint!.latitude.toString())
+                      )
+                  .toList(),
+            );
+          }
+
+          //   child: Image.network(
+          // "https://media.giphy.com/media/3oriNO0p3Sn0itamg8/giphy.gif%22)",
+          return Stack(children: [
+            Center(
+                child: Image.network(
+                    "https://media.giphy.com/media/3oriNO0p3Sn0itamg8/giphy.gif"))
+          ]);
+        },
       ),
     );
   }
