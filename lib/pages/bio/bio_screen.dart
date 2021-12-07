@@ -59,30 +59,71 @@ class _ScanScreenState extends State<ScanScreen> {
         builder: (context, state) {
           Size mediaQuery = MediaQuery.of(context).size;
 
-          if (state is ScanFail) {
-            return Center(
-              child: Text(state.mess),
-            );
-          }
-
-          if (state is ScanResult) {
-            if (state.scanResult.length == 0) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/img/lovebird.png"),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: AnimatedTextKit(
-                      pause: const Duration(milliseconds: 200),
-                      repeatForever: true,
-                      isRepeatingAnimation: true,
-                      animatedTexts: [
-                        ColorizeAnimatedText(
-                          "You're so lonely :>",
-                          textStyle: const TextStyle(
-                            fontSize: 35.0,
+                return SizedBox(
+                  width: mediaQuery.width,
+                  height: mediaQuery.height,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: mediaQuery.height * 0.2,
+                          width: mediaQuery.width * 2,
+                          decoration: const BoxDecoration(
+                            color: AppColors.tiffany,
+                            // borderRadius: BorderRadius.only(
+                            //   bottomLeft: Radius.circular(80),
+                            //   bottomRight: Radius.circular(80),
+                            // ),
+                          ),
+                        ),
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 40,
+                            child: CustomCircleAvatar(
+                              avatarURL: bio.avatar!,
+                            )),
+                        SizedBox(
+                          height: mediaQuery.height * 0.68,
+                          child: Center(
+                            child: Text(
+                              bio.name! + '24',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
+                                  fontSize: mediaQuery.width * 0.08),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<AuthenticationBloc>(context)
+                                      .add(AuthenticationLogout());
+                                  Navigator.of(context)
+                                      .popAndPushNamed(AppRouting.loginRoute);
+                                  // missing logout navitong
+                                },
+                                icon: Icon(Icons.logout, size: 30)),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(320, 180, 4, 80),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: AppColors.tiffany, // background
+                              onPrimary: Colors.white, // foreground
+                            ),
+                            onPressed: () async {
+                              var aaaa = await Navigator.of(context).pushNamed(
+                                  AppRouting.bioeditRoute,
+                                  arguments: bio);
+                              print(aaaa);
+                            },
+                            child: const Icon(Icons.edit, size: 30),
                           ),
                           colors: colorizeColors,
                         ),

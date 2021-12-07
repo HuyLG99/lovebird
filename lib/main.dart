@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lovebird/config/routes/routing.dart';
@@ -18,6 +20,10 @@ void main() async {
   SystemChrome.setEnabledSystemUIOverlays([]);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  }
   runApp(const MyApp());
 }
 
@@ -30,12 +36,13 @@ class MyApp extends StatelessWidget {
     //Size mediaQuery = MediaQuery.of(context).size;
     return DependecyProvider(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         routes: {
-          AppRouting.loginRoute: (context) => LoginScreen(),
+          AppRouting.loginRoute: (context) => const LoginScreen(),
           AppRouting.splashRoute: (context) => const SplashScreen(),
           AppRouting.scanRoute: (context) => const ScanScreen(),
           AppRouting.bioRoute: (context) => const BioScreen(),
