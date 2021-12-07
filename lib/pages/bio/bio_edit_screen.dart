@@ -203,12 +203,62 @@ class _BioEditScreenState extends State<BioEditScreen> {
                           // Navigator.pushNamed(context, );
                         },
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: mediaQuery.width * 0.1,
-                              height: mediaQuery.width * 0.1,
+                              width: mediaQuery.width * 0.14,
+                              height: mediaQuery.width * 0.2,
                               child: Image.asset("assets/img/facebook.png"),
+                            ),
+                            SizedBox(
+                              width: mediaQuery.width * 0.05,
+                            ),
+                            Text(
+                              'Link FaceBook',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  fontSize: mediaQuery.width * 0.05),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.width * 0.05,
+                  ),
+                  Container(
+                    width: mediaQuery.width * 0.8,
+                    height: mediaQuery.width * 0.14,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 8,
+                          // spreadRadius: -21,
+                          offset: Offset(0, 3),
+                        )
+                      ],
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          // Navigator.pushNamed(context, );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: mediaQuery.width * 0.14,
+                              height: mediaQuery.width * 0.2,
+                              child: Image.asset("assets/img/instagram.png"),
+                            ),
+                            SizedBox(
+                              width: mediaQuery.width * 0.05,
                             ),
                             Text(
                               'Link FaceBook',
@@ -247,59 +297,18 @@ class _BioEditScreenState extends State<BioEditScreen> {
                           // Navigator.pushNamed(context, );
                         },
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: mediaQuery.width * 0.1,
-                              height: mediaQuery.width * 0.1,
-                              child: Image.asset("assets/img/instagram.png"),
-                            ),
-                            Text(
-                              'Link instagram',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                  fontSize: mediaQuery.width * 0.05),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: mediaQuery.width * 0.03,
-                  ),
-                  Container(
-                    width: mediaQuery.width * 0.8,
-                    height: mediaQuery.width * 0.14,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 8,
-                          // spreadRadius: -21,
-                          offset: Offset(0, 3),
-                        )
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              width: mediaQuery.width * 0.1,
-                              height: mediaQuery.width * 0.1,
+                              width: mediaQuery.width * 0.14,
+                              height: mediaQuery.width * 0.2,
                               child: Image.asset("assets/img/twitter.png"),
                             ),
+                            SizedBox(
+                              width: mediaQuery.width * 0.05,
+                            ),
                             Text(
-                              'Link instagram',
+                              'Link FaceBook',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
@@ -335,15 +344,18 @@ class _BioEditScreenState extends State<BioEditScreen> {
                           // Navigator.pushNamed(context, );
                         },
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: mediaQuery.width * 0.1,
-                              height: mediaQuery.width * 0.1,
+                              width: mediaQuery.width * 0.14,
+                              height: mediaQuery.width * 0.2,
                               child: Image.asset("assets/img/world.png"),
                             ),
+                            SizedBox(
+                              width: mediaQuery.width * 0.05,
+                            ),
                             Text(
-                              'Link instagram',
+                              'Link FaceBook',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,

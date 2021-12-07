@@ -42,8 +42,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           avatar:
               "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-1/p320x320/249233916_3070314433217063_7410007586773100947_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=7206a8&_nc_ohc=m0OrDFFbgtIAX-7C2jy&_nc_ht=scontent.fsgn2-4.fna&oh=cc2bb385bc4899d196e53a56814593e6&oe=61B37D7A",
           background: "background",
-          nickName: "nickName" + i.toString(),
-          hobbies: ["hobbies"],
           name: "nameXXXX" + i.toString(),
           address: "address",
           geoFirePoint: GeoFirePoint(1222, 233),

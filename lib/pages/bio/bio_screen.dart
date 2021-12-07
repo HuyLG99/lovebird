@@ -31,7 +31,7 @@ class _BioScreenState extends State<BioScreen> {
                   height: mediaQuery.height * 0.2,
                   width: mediaQuery.width * 2,
                   decoration: const BoxDecoration(
-                    color: Colors.grey,
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(80),
                       bottomRight: Radius.circular(80),
@@ -51,13 +51,6 @@ class _BioScreenState extends State<BioScreen> {
                           fontSize: mediaQuery.width * 0.08),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () {}, icon: Icon(Icons.logout, size: 30)),
-                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(320, 180, 4, 80),
@@ -166,12 +159,15 @@ class _BioScreenState extends State<BioScreen> {
                               // Navigator.pushNamed(context, );
                             },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: mediaQuery.width * 0.1,
-                                  height: mediaQuery.width * 0.1,
+                                  width: mediaQuery.width * 0.14,
+                                  height: mediaQuery.width * 0.2,
                                   child: Image.asset("assets/img/facebook.png"),
+                                ),
+                                SizedBox(
+                                  width: mediaQuery.width * 0.05,
                                 ),
                                 Text(
                                   'Link FaceBook',
@@ -210,16 +206,19 @@ class _BioScreenState extends State<BioScreen> {
                               // Navigator.pushNamed(context, );
                             },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: mediaQuery.width * 0.1,
-                                  height: mediaQuery.width * 0.1,
+                                  width: mediaQuery.width * 0.14,
+                                  height: mediaQuery.width * 0.2,
                                   child:
                                       Image.asset("assets/img/instagram.png"),
                                 ),
+                                SizedBox(
+                                  width: mediaQuery.width * 0.05,
+                                ),
                                 Text(
-                                  'Link instagram',
+                                  'Link FaceBook',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
@@ -255,15 +254,18 @@ class _BioScreenState extends State<BioScreen> {
                               // Navigator.pushNamed(context, );
                             },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: mediaQuery.width * 0.1,
-                                  height: mediaQuery.width * 0.1,
+                                  width: mediaQuery.width * 0.14,
+                                  height: mediaQuery.width * 0.2,
                                   child: Image.asset("assets/img/twitter.png"),
                                 ),
+                                SizedBox(
+                                  width: mediaQuery.width * 0.05,
+                                ),
                                 Text(
-                                  'Link instagram',
+                                  'Link FaceBook',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
@@ -299,19 +301,69 @@ class _BioScreenState extends State<BioScreen> {
                               // Navigator.pushNamed(context, );
                             },
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: mediaQuery.width * 0.1,
-                                  height: mediaQuery.width * 0.1,
+                                  width: mediaQuery.width * 0.14,
+                                  height: mediaQuery.width * 0.2,
                                   child: Image.asset("assets/img/world.png"),
                                 ),
+                                SizedBox(
+                                  width: mediaQuery.width * 0.05,
+                                ),
                                 Text(
-                                  'Link instagram',
+                                  'Link FaceBook',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
                                       fontSize: mediaQuery.width * 0.05),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: mediaQuery.width * 0.08,
+                      ),
+                      Container(
+                        width: mediaQuery.width * 0.5,
+                        height: mediaQuery.width * 0.14,
+                        decoration: BoxDecoration(
+                          color: Colors.pink,
+                          borderRadius: BorderRadius.circular(40),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 8,
+                              offset: Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              // Navigator.pushNamed(context, );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: mediaQuery.width * 0.14,
+                                  height: mediaQuery.width * 0.2,
+                                  child: const Icon(
+                                    Icons.power_settings_new,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'Log Out',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontSize: mediaQuery.width * 0.06),
                                 ),
                               ],
                             ),
