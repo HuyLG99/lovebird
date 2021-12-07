@@ -45,7 +45,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           name: "nameXXXX" + i.toString(),
           address: "address",
           geoFirePoint: GeoFirePoint(1222, 233),
-          socialUrl: ["socialUrl"]));
+          socialUrl: ["socialUrl"],
+          hobbies: [],
+          nickName: ''));
     }
   }
 

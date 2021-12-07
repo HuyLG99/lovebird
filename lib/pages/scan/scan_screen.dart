@@ -149,13 +149,8 @@ class _ScanScreenState extends State<ScanScreen> {
             );
           }
 
-          //   child: Image.network(
-          // "https://media.giphy.com/media/3oriNO0p3Sn0itamg8/giphy.gif%22)",
-          return Stack(children: [
-            Center(
-                child: Image.network(
-                    "https://media.giphy.com/media/3oriNO0p3Sn0itamg8/giphy.gif"))
-          ]);
+          return Stack(
+              children: [Center(child: Image.asset("assets/img/heart.gif"))]);
         },
       ),
     );
