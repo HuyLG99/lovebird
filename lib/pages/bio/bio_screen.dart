@@ -92,7 +92,7 @@ class _ScanScreenState extends State<ScanScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   color: Colors.black,
-                                  fontSize: mediaQuery.width * 0.08),
+                                  fontSize: mediaQuery.width * 0.055),
                             ),
                           ),
                         ),

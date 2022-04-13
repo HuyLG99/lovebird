@@ -1,7 +1,40 @@
-# lovebird
+# Lovebird 
 
-A new Flutter project.
+A new Flutter project within 3days of madness
+##### ```lovebird -aka- love just flew over you```
 
+![lovebird_icon](https://github.com/truonghoangduy/lovebird/blob/master/assets/img/lovebird.png)
+
+
+```Video of demo``` ```PWA``` interaction ```Mobile App```
+https://www.youtube.com/watch?v=uH1CVMfIADw
+<br>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=uH1CVMfIADw" target="_blank"><img src="http://img.youtube.com/vi/uH1CVMfIADw/0.jpg" 
+alt="Bash Into Zsh!"/></a>
+
+##### ``` Installation ```
+1. the application only run on ```real device``` due to GPS functionality.
+2. build release on Android/IOS/ Web
+
+
+```python
+    if lazy is None:
+        add_picture()
+        add_more_readme()
+```
+<img src="./docs/imgs/flutter_web.jpg" style="width:65%">
+
+##### ``` Tech Feature ```
+1. Sign in with google account.
+2. Realtime data.
+3. Geo Location + GeoHash.
+4. Web/ Android/ IOS work greaten together.
+5. Flutter Bloc + Cross platform lib.
+7. ``` Lovebird powered by Firebase sama :>```
+8. Dynamic view for Flutter Web (PWA stuff) https://lovebird-dev-fest.web.app (lite test)
+9. 90% coding at 3am (a bit madness).
+
+[PWA - Flutter :> ](https://lovebird-dev-fest.web.app)
 #### [Figma](https://www.figma.com/file/HCAaJg9ldN4Vc2JGBSalHo/LoveBird?node-id=0%3A1)
 
 -------
